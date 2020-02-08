@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const cors = require('./config/cors.config');
 const session = require('./config/session.config');
+const User = require('./models/user.model')
 
 /**
  * DB config

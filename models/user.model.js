@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const Rating = require('./rating.model')
 const bcrypt = require('bcrypt');
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const SALT_WORK_FACTOR = 10;
@@ -29,6 +30,10 @@ const userSchema = new Schema(
       required: [true, 'Password is required!'],
       minlength: [8, 'Password needs at last 8 chars!']
     },
+    description: {
+      type: String,
+      default: null
+    },
     avatar: {
       type: String
     },
@@ -43,7 +48,8 @@ const userSchema = new Schema(
     phoneNumber: {
       type: String,
       minlength: [9, 'Must have 9 digits!'],
-      required: true
+      required: [true, 'Phone number is required!'],
+      unique: true
     },
     bankAccout: {
       type: String,
@@ -51,21 +57,21 @@ const userSchema = new Schema(
     },
     birthDate: {
       type: Date,
-      required: [True, 'Birth date required!']
+      required: [true, 'Birth date required!']
     },
-    status: {
+    available: {
+      type: Boolean,
+      default: true
+    },
+    state: {
       type: String,
-      enum: ['on', 'off'],
-      default: 'on'
+      enum: ['offer', 'demand'],
+      default: 'offer'
     },
-    loggedAs: {
-      type: String,
-      enum: ['offer', 'demand']
-    },
-    rate: {
+    cost: {
       type: Number,
       min: 0,
-      default: 0 // $
+      default: 0 // $ 
     },
     availableTime: {
       type: Number,
@@ -84,6 +90,9 @@ const userSchema = new Schema(
     toJSON: {
       transform: (doc, ret) => { //ret => return
         ret.id = doc._id;
+        delete password;
+        delete validated;
+        delete validateToken;
         delete ret._id;
         delete ret.__v;
         return ret;
@@ -91,6 +100,13 @@ const userSchema = new Schema(
     }
   }
 )
+
+userSchema.virtual('rating', {
+  ref: Rating.modelName,
+  localField: '_id',
+  foreignField: 'valued'
+  // options: { sort: { position: -1 } }
+});
 
 userSchema.pre('save', function (next) {
   const user = this;
