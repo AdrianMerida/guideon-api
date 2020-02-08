@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+const states = ['pending', 'accepted', 'declined']
+
 const meetingSchema = new Schema(
   {
     sender: {
@@ -32,6 +34,11 @@ const meetingSchema = new Schema(
       min: 0,
       max: 10,
       default: null
+    },
+    state: { // Si acepta o no el encuentro
+      type: String,
+      enum: states,
+      default: 'pending'
     }
   },
   {

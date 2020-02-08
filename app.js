@@ -34,7 +34,6 @@ app.use((req, _, next) => {
     })
 })
 
-
 /**
  * Configure routes
  */
