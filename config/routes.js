@@ -8,12 +8,12 @@ const meetingsController = require('../controllers/meetings.controller')
 router.post('/register', usersController.register)
 router.post('/login', usersController.login)
 router.post('/logout', usersController.logout)
-// router.put('/myProfile', usersController.updateProfile)
-// router.put('/users/:id/rate', usersController.rateUser)
-// router.put('/validate/:token', usersController.validateUser)
-// router.put('/switchAvailability', usersController.switchAvailability)
-// router.put('/switchUserState', usersController.switchUserState) // offer-demand
-// router.put('/updateCost', usersController.updateUserCost) // offer-demand
+router.put('/myProfile', usersController.updateProfile)
+router.post('/users/:id/rate', usersController.rateUser)
+router.put('/validate/:token', usersController.validateUser)
+router.put('/switchAvailability', usersController.switchAvailability)
+router.put('/switchUserState', usersController.switchUserState) // offer-demand
+router.put('/updateCost', usersController.updateUserCost) 
 
 // CHAT
 // router.post('/', chatsController.sendMsg)
