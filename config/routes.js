@@ -16,7 +16,7 @@ router.put('/switchUserState', usersController.switchUserState) // offer-demand
 router.put('/updateCost', usersController.updateUserCost) 
 
 // CHAT
-// router.post('/', chatsController.sendMsg)
+router.post('/chat/:id/sendMsg', chatsController.sendMsg)
 // router.post('/', chatsController.getChat)
 
 // // MEETING

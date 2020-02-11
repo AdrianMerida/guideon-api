@@ -49,7 +49,7 @@ module.exports.logout = (req, res) => {
 }
 
 module.exports.rateUser = (req, res, next) => {
-  const myUserId = req.currentUser.id
+  const myUserId = req.session.user.id
   const userId = req.params.id
   const rating = req.body.rating
   const newRating = new Rating({
@@ -82,16 +82,18 @@ module.exports.validateUser = (req, res, next) => {
 }
 
 module.exports.updateProfile = (req, res, next) => {
-  User.findByIdAndUpdate(req.currentUser.id, { $set: req.body }, { new: true })
-    .then(user => res.json(user))
+  User.findByIdAndUpdate(req.session.user.id, { $set: req.body }, { new: true })
+    .then(user => {
+      req.session.user = user
+      res.json(user)
+    })
     .catch(next)
 }
 
 module.exports.switchAvailability = (req, res, next) => {
-  User.findByIdAndUpdate(req.currentUser.id, { $set: { available: !req.currentUser.available } }, { new: true })
+  User.findByIdAndUpdate(req.session.user.id, { $set: { available: !req.session.user.available } }, { new: true })
     .then(user => {
-      // DUDA, ASÍ ESTÁ OK? usar currentuser en vez de req.session.user y hacerlo de esta manera?
-      req.currentUser.available = !req.currentUser.available
+      req.session.user.available = !req.session.user.available
       res.json(user)
     })
     .catch(next)
@@ -104,9 +106,9 @@ module.exports.switchUserState = (req, res, next) => {
     demand: 'offer'
   }
 
-  User.findByIdAndUpdate(req.session.user.id, { $set: { state: states[req.currentUser.state] } }, { new: true })
+  User.findByIdAndUpdate(req.session.user.id, { $set: { state: states[req.session.user.state] } }, { new: true })
     .then(user => {
-      req.currentUser.state = states[req.currentUser.state] // DUDA, ASÍ ESTÁ OK?
+      req.session.user.state = states[req.session.user.state] // DUDA, ASÍ ESTÁ OK?
       res.json(user)
     })
     .catch(next)
@@ -116,8 +118,9 @@ module.exports.updateUserCost = (req, res, next) => {
 
   const { cost } = req.body
 
-  User.findByIdAndUpdate(req.currentUser.id, { $set: { cost: parseInt(cost) } }, { new: true })
+  User.findByIdAndUpdate(req.session.user.id, { $set: { cost: parseInt(cost) } }, { new: true })
     .then(user => {
+      req.session.user.cost = parseInt(cost)
       res.json(user)
     })
     .catch(next)
