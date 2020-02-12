@@ -23,6 +23,7 @@ const chatSchema = new Schema(
     toJSON: {
       transform: (doc, ret) => { //ret => return
         ret.id = doc._id;
+        delete conversationId;
         delete ret._id;
         delete ret.__v;
         return ret;

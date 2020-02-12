@@ -1,6 +1,18 @@
-const User = require('../models/user.model')
 const Chat = require('../models/chat.model')
 const Conversation = require('../models/conversation.model')
+
+module.exports.getConversations = (req, res, next) => {
+  Conversation.find({ users: req.session.user.id })
+    .then(conversations => res.json(conversations))
+    .catch(next)
+}
+
+module.exports.getChats = (req, res, next) => {
+  const conversationId = req.params.id
+  Chat.find({ conversationId: conversationId })
+    .then(chats => res.json(chats))
+    .catch(next)
+}
 
 module.exports.sendMsg = (req, res, next) => {
 
@@ -9,7 +21,8 @@ module.exports.sendMsg = (req, res, next) => {
   const msg = req.body.msg
   const users = [myUserId, userId]
 
-  Conversation.find({ users: users, users: users.reverse() })
+  // SI NO EXISTE SE CREA UNA CONVERSACIÓN Y SI NO SE GUARDA
+  Conversation.findOne({ users: users, users: users.reverse() })
     .then(conversation => {
       if (!conversation) {
         const newConversation = new Conversation({ users })
@@ -21,7 +34,7 @@ module.exports.sendMsg = (req, res, next) => {
               msg: msg
             })
             newChat.save()
-              .then(chat => res.status(204).json(chat))
+              .then(chat => res.json(chat))
           })
       } else {
         const newChat = new Chat({
@@ -30,8 +43,9 @@ module.exports.sendMsg = (req, res, next) => {
           msg: msg
         })
         newChat.save()
-          .then(chat => res.status(204).json(chat))
+          .then(chat => res.json(chat))
       }
     })
     .catch(next)
 }
+

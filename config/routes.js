@@ -15,12 +15,15 @@ router.put('/switchAvailability', usersController.switchAvailability)
 router.put('/switchUserState', usersController.switchUserState) // offer-demand
 router.put('/updateCost', usersController.updateUserCost) 
 
-// CHAT
+// CHAT & CONVERSATION
+router.get('/conversations', chatsController.getConversations)
+router.get('/chats/:id', chatsController.getChats)
 router.post('/chat/:id/sendMsg', chatsController.sendMsg)
-// router.post('/', chatsController.getChat)
 
-// // MEETING
-// router.get('/', meetingsController.getPendingMeeting)
+
+// MEETING
+router.get('/meetings', meetingsController.getMeetings)
+router.get('/meetings/pending', meetingsController.getPendingMeetings)
 // router.put('/', meetingsController.declineMeeting)
 // router.put('/', meetingsController.acceptMeeting)
 // router.put('/', meetingsController.rateMeeting)
