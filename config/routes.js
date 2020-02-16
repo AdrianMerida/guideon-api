@@ -24,9 +24,10 @@ router.post('/chat/:id/sendMsg', chatsController.sendMsg)
 // MEETING
 router.get('/meetings', meetingsController.getMeetings)
 router.get('/meetings/pending', meetingsController.getPendingMeetings)
-// router.put('/', meetingsController.declineMeeting)
-// router.put('/', meetingsController.acceptMeeting)
-// router.put('/', meetingsController.rateMeeting)
+router.post('/meetings/create', meetingsController.createMeeting)
+router.put('/meetings/:id/decline', meetingsController.declineMeeting)
+router.put('/meetings/:id/accept', meetingsController.acceptMeeting)
+router.put('/meetings/:id/rate', meetingsController.rateMeeting)
 
 
 
