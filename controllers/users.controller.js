@@ -5,9 +5,18 @@ const createError = require('http-errors');
 // const mailer = require('../config/mailer.config');
 
 module.exports.register = (req, res, next) => {
-  const newUser = new User(req.body)
+  const newUser = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    description: req.body.description,
+    avatar: req.file ? req.file.url : undefined,
+    phoneNumber: req.body.phoneNumber,
+    birthDate: req.body.birthDate,
+    location: req.body.location
+  })
   newUser.save()
-    .then(user => res.status(201).json(user))
+    .then(user => res.json(user))
     .catch(next)
 }
 
@@ -59,7 +68,7 @@ module.exports.rateUser = (req, res, next) => {
   })
 
   newRating.save()
-    .then(rating => res.status(204).json(rating))
+    .then(rating => res.json(rating))
     .catch(next)
 }
 

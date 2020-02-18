@@ -80,8 +80,16 @@ const userSchema = new Schema(
       default: 0 // hours
     },
     location: {
-      type: String,
-      default: null // cambiarlo a geolocalización (más tarde)
+      type: {
+        type: String,
+        enum: ['Point'],
+        required: true,
+        default: 'Point'
+      },
+      coordinates: {
+        type: [Number],
+        required: true
+      }
     }
 
   },
