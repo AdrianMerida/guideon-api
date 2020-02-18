@@ -3,14 +3,16 @@ const router = express.Router();
 const usersController = require('../controllers/users.controller')
 const chatsController = require('../controllers/chats.controller')
 const meetingsController = require('../controllers/meetings.controller')
-const upload = require('./cloudinary.config');
+const uploader = require('./cloudinary.config');
 const authMiddleware = require('../middlewares/auth.middleware')
 
 // USER
-router.post('/register', authMiddleware.isNotAuthenticated, upload.single('avatar'), usersController.register)
+router.post('/register', authMiddleware.isNotAuthenticated, usersController.register)
+router.post('/uploadNotAuthImage', authMiddleware.isNotAuthenticated, uploader.single("avatar"), usersController.uploadNotAuthImage)
+router.post('/uploadAuthImage', authMiddleware.isNotAuthenticated, uploader.single("avatar"), usersController.uploadAuthImage)
 router.post('/login', authMiddleware.isNotAuthenticated, usersController.login)
 router.post('/logout', authMiddleware.isAuthenticated, usersController.logout)
-router.put('/myProfile', authMiddleware.isAuthenticated, upload.single('avatar'), usersController.updateProfile)
+router.put('/myProfile', authMiddleware.isAuthenticated, usersController.updateProfile)
 router.post('/users/:id/rate', authMiddleware.isAuthenticated, usersController.rateUser)
 router.put('/validate/:token', authMiddleware.isAuthenticated, usersController.validateUser)
 router.put('/switchAvailability', authMiddleware.isAuthenticated, usersController.switchAvailability)

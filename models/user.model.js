@@ -35,7 +35,8 @@ const userSchema = new Schema(
       default: null
     },
     avatar: {
-      type: String
+      type: String,
+      default: undefined
     },
     validateToken: {
       type: String,

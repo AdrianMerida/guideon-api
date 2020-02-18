@@ -5,20 +5,40 @@ const createError = require('http-errors');
 // const mailer = require('../config/mailer.config');
 
 module.exports.register = (req, res, next) => {
-  const newUser = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    description: req.body.description,
-    avatar: req.file ? req.file.url : undefined,
-    phoneNumber: req.body.phoneNumber,
-    birthDate: req.body.birthDate,
-    location: req.body.location
-  })
+  // const newUser = new User({
+  //   name: req.body.name,
+  //   email: req.body.email,
+  //   password: req.body.password,
+  //   description: req.body.description,
+  //   avatar: req.body.avatar,
+  //   phoneNumber: req.body.phoneNumber,
+  //   birthDate: req.body.birthDate,
+  //   location: req.body.location
+  // })
+  const newUser = new User(req.body)
   newUser.save()
     .then(user => res.json(user))
     .catch(next)
 }
+
+module.exports.uploadNotAuthImage = (req, res, next) => {
+  if (!req.file) {
+    return res.json()
+  }
+  // get secure_url from the file object and save it in the 
+  // variable 'secure_url', but this can be any name, just make sure you remember to use the same in frontend
+  res.json({ secure_url: req.file.secure_url });
+}
+
+module.exports.uploadAuthImage = (req, res, next) => {
+  if (!req.file) {
+    return res.json()
+  }
+  // get secure_url from the file object and save it in the 
+  // variable 'secure_url', but this can be any name, just make sure you remember to use the same in frontend
+  res.json({ secure_url: req.file.secure_url });
+}
+
 
 module.exports.login = (req, res, next) => {
 
