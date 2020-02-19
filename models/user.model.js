@@ -34,7 +34,7 @@ const userSchema = new Schema(
       type: String,
       default: null
     },
-    avatar: {
+    avatarUrl: {
       type: String,
       default: undefined
     },
@@ -81,16 +81,18 @@ const userSchema = new Schema(
       default: 0 // hours
     },
     location: {
-      type: {
-        type: String,
-        enum: ['Point'],
-        required: true,
-        default: 'Point'
-      },
-      coordinates: {
-        type: [Number],
-        required: true
-      }
+      type: String,
+      default: null
+      // type: {
+      //   type: String,
+      //   enum: ['Point'],
+      //   required: true,
+      //   default: 'Point'
+      // },
+      // coordinates: {
+      //   type: [Number],
+      //   required: true
+      // }
     }
 
   },

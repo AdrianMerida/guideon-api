@@ -16,12 +16,13 @@ module.exports.register = (req, res, next) => {
   //   location: req.body.location
   // })
   const newUser = new User(req.body)
+  console.log(req.body)
   newUser.save()
     .then(user => res.json(user))
     .catch(next)
 }
 
-module.exports.uploadNotAuthImage = (req, res, next) => {
+module.exports.uploadImage = (req, res, next) => {
   if (!req.file) {
     return res.json()
   }
@@ -30,14 +31,6 @@ module.exports.uploadNotAuthImage = (req, res, next) => {
   res.json({ secure_url: req.file.secure_url });
 }
 
-module.exports.uploadAuthImage = (req, res, next) => {
-  if (!req.file) {
-    return res.json()
-  }
-  // get secure_url from the file object and save it in the 
-  // variable 'secure_url', but this can be any name, just make sure you remember to use the same in frontend
-  res.json({ secure_url: req.file.secure_url });
-}
 
 
 module.exports.login = (req, res, next) => {
