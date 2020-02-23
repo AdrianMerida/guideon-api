@@ -49,6 +49,7 @@ const userSchema = new Schema(
     phoneNumber: {
       type: String,
       minlength: [9, 'Must have 9 digits!'],
+      maxlength: [9, 'Must have 9 digits!'],
       required: [true, 'Phone number is required!'],
       unique: true
     },
@@ -81,18 +82,18 @@ const userSchema = new Schema(
       default: 0 // hours
     },
     location: {
-      type: String,
-      default: null
-      // type: {
-      //   type: String,
-      //   enum: ['Point'],
-      //   required: true,
-      //   default: 'Point'
-      // },
-      // coordinates: {
-      //   type: [Number],
-      //   required: true
-      // }
+      // type: String,
+      // default: null
+      type: {
+        type: String,
+        enum: ['Point'],
+        required: true,
+        default: 'Point'
+      },
+      coordinates: {
+        type: [Number],
+        required: true
+      }
     }
 
   },

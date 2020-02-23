@@ -16,7 +16,6 @@ module.exports.register = (req, res, next) => {
   //   location: req.body.location
   // })
   const newUser = new User(req.body)
-  console.log(req.body)
   newUser.save()
     .then(user => res.json(user))
     .catch(next)
