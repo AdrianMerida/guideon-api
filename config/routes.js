@@ -16,7 +16,8 @@ router.post('/users/:id/rate', authMiddleware.isAuthenticated, usersController.r
 router.put('/validate/:token', authMiddleware.isAuthenticated, usersController.validateUser)
 router.put('/switchAvailability', authMiddleware.isAuthenticated, usersController.switchAvailability)
 router.put('/switchUserState', authMiddleware.isAuthenticated, usersController.switchUserState) // offer-demand
-router.put('/updateCost', authMiddleware.isAuthenticated, usersController.updateUserCost) 
+router.put('/updateCost', authMiddleware.isAuthenticated, usersController.updateUserCost)
+router.get('/users', authMiddleware.isAuthenticated, usersController.getUsers)
 
 // CHAT & CONVERSATION
 router.get('/conversations', authMiddleware.isAuthenticated, chatsController.getConversations)

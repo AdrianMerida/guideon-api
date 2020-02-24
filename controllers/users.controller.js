@@ -146,3 +146,11 @@ module.exports.updateUserCost = (req, res, next) => {
     })
     .catch(next)
 }
+
+module.exports.getUsers = (req, res, next) => {
+  User.find()
+    .then(users => {
+      res.json(users)
+    })
+    .catch(next)
+}
