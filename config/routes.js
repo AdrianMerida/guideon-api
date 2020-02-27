@@ -8,7 +8,7 @@ const authMiddleware = require('../middlewares/auth.middleware')
 
 // USER
 router.post('/register', authMiddleware.isNotAuthenticated, usersController.register)
-router.post('/uploadImage', authMiddleware.isNotAuthenticated, uploader.single("avatarUrl"), usersController.uploadImage)
+router.post('/uploadImage', uploader.single("avatarUrl"), usersController.uploadImage)
 router.post('/login', authMiddleware.isNotAuthenticated, usersController.login)
 router.post('/logout', authMiddleware.isAuthenticated, usersController.logout)
 router.put('/myProfile', authMiddleware.isAuthenticated, usersController.updateProfile)

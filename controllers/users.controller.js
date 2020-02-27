@@ -46,6 +46,7 @@ module.exports.login = (req, res, next) => {
   }
 
   User.findOne({ email: email })
+    .populate('rating')
     .then(user => {
       if (!user) {
         throw createError(404, 'Wrong credentials')
