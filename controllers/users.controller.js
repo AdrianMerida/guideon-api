@@ -30,8 +30,6 @@ module.exports.uploadImage = (req, res, next) => {
   res.json({ secure_url: req.file.secure_url });
 }
 
-
-
 module.exports.login = (req, res, next) => {
 
   // Si existe el usuario => 403
@@ -152,6 +150,15 @@ module.exports.getUsers = (req, res, next) => {
   User.find()
     .then(users => {
       res.json(users)
+    })
+    .catch(next)
+}
+
+module.exports.getUserDetail = (req, res, next) => {
+  const userId = req.params.id
+  User.findById(userId)
+    .then(user => {
+      res.json(user)
     })
     .catch(next)
 }

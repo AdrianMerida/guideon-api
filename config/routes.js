@@ -18,6 +18,7 @@ router.put('/switchAvailability', authMiddleware.isAuthenticated, usersControlle
 router.put('/switchUserState', authMiddleware.isAuthenticated, usersController.switchUserState) // offer-demand
 router.put('/updateCost', authMiddleware.isAuthenticated, usersController.updateUserCost)
 router.get('/users', authMiddleware.isAuthenticated, usersController.getUsers)
+router.get('/users/:id', authMiddleware.isAuthenticated, usersController.getUserDetail)
 
 // CHAT & CONVERSATION
 router.get('/conversations', authMiddleware.isAuthenticated, chatsController.getConversations)
