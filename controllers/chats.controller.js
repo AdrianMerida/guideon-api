@@ -3,6 +3,8 @@ const Conversation = require('../models/conversation.model')
 
 module.exports.getConversations = (req, res, next) => {
   Conversation.find({ users: req.session.user.id })
+    .populate('users')
+    .populate('chats')
     .then(conversations => res.json(conversations))
     .catch(next)
 }
@@ -21,7 +23,7 @@ module.exports.sendMsg = (req, res, next) => {
   const msg = req.body.msg
   const users = [myUserId, userId]
 
-  // SI NO EXISTE SE CREA UNA CONVERSACIÓN Y SI NO SE GUARDA
+  // req.params.id NO EXISTE SEB CREA UNA CONVERSACIÓN Y SI NO SE GUARDA
   Conversation.findOne({ users: users, users: users.reverse() })
     .then(conversation => {
       if (!conversation) {

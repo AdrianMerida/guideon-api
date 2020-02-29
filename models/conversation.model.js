@@ -13,6 +13,7 @@ const conversationSchema = new Schema(
   {
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform: (doc, ret) => { 
         ret.id = doc._id;
         delete ret._id;
@@ -26,8 +27,9 @@ const conversationSchema = new Schema(
 conversationSchema.virtual('chats', {
   ref: Chat.modelName,
   localField: '_id',
-  foreignField: 'conversationId'
-  // options: { sort: { position: -1 } }
+  foreignField: 'conversationId',
+  options: { sort: { position: -1 } },
+  justOne: true
 });
 
 const Conversation = new mongoose.model('Conversation', conversationSchema)
