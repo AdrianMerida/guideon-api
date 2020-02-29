@@ -21,6 +21,7 @@ const chatSchema = new Schema(
   {
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform: (doc, ret) => { //ret => return
         ret.id = doc._id;
         delete conversationId;

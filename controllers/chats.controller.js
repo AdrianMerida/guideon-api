@@ -4,8 +4,21 @@ const Conversation = require('../models/conversation.model')
 module.exports.getConversations = (req, res, next) => {
   Conversation.find({ users: req.session.user.id })
     .populate('users')
-    .populate('chats')
+    .populate({
+      path: 'chats',
+      populate: {
+        path: 'sender'
+      }
+    })
     .then(conversations => res.json(conversations))
+    .catch(next)
+}
+
+module.exports.getOneConversation = (req, res, next) => {
+  const converId = req.params.id
+  Conversation.findById(converId)
+    .populate('users')
+    .then(conversation => res.json(conversation))
     .catch(next)
 }
 
@@ -23,7 +36,7 @@ module.exports.sendMsg = (req, res, next) => {
   const msg = req.body.msg
   const users = [myUserId, userId]
 
-  // req.params.id NO EXISTE SEB CREA UNA CONVERSACIÓN Y SI NO SE GUARDA
+  // SINO EXISTE SE CREA UNA CONVERSACIÓN Y SI NO SE GUARDA
   Conversation.findOne({ users: users, users: users.reverse() })
     .then(conversation => {
       if (!conversation) {
