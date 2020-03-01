@@ -147,7 +147,7 @@ module.exports.updateUserCost = (req, res, next) => {
 }
 
 module.exports.getUsers = (req, res, next) => {
-  User.find()
+  User.find({ available: true})
     .then(users => {
       res.json(users)
     })
