@@ -25,12 +25,13 @@ router.get('/conversations', authMiddleware.isAuthenticated, chatsController.get
 router.get('/chats/:id', authMiddleware.isAuthenticated, chatsController.getChats)
 router.post('/chat/:id/sendMsg', authMiddleware.isAuthenticated, chatsController.sendMsg)
 router.get('/conversations/:id', authMiddleware.isAuthenticated, chatsController.getOneConversation)
-
+router.get('/existConversations/:id', authMiddleware.isAuthenticated, chatsController.existConversation)
 
 // MEETING
 router.get('/meetings', authMiddleware.isAuthenticated, meetingsController.getMeetings)
 router.get('/meetings/pending', authMiddleware.isAuthenticated, meetingsController.getPendingMeetings)
 router.post('/meetings/create', authMiddleware.isAuthenticated, meetingsController.createMeeting)
+router.get('/meetings/:meetingId', authMiddleware.isAuthenticated, meetingsController.getOneMeeting)
 router.put('/meetings/:id/decline', authMiddleware.isAuthenticated, meetingsController.declineMeeting)
 router.put('/meetings/:id/accept', authMiddleware.isAuthenticated, meetingsController.acceptMeeting)
 router.put('/meetings/:id/rate', authMiddleware.isAuthenticated, meetingsController.rateMeeting)

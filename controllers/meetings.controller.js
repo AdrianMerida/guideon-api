@@ -8,6 +8,15 @@ module.exports.getMeetings = (req, res, next) => {
     .catch(next)
 }
 
+module.exports.getOneMeeting = (req, res, next) => {
+  const meetingId = req.params.meetingId
+  Meeting.findById(meetingId)
+    .populate('sender')
+    .populate('receiver')
+    .then(meeting => res.json(meeting))
+    .catch(next)
+}
+
 module.exports.getPendingMeetings = (req, res, next) => {
   const myUserId = req.session.user.id
   Meeting.find({ $and: [{ $or: [{ sender: myUserId }, { receiver: myUserId }] }, { state: 'pending' }] })
@@ -26,7 +35,13 @@ module.exports.createMeeting = (req, res, next) => {
   // }
   // const newMeeting = new Meeting(data)
 
-  const newMeeting = new Meeting(req.body)
+  const data = {
+    sender: req.body.sender,
+    location: req.body.location,
+    duration: req.body.duration,
+    date: req.body.date
+  }
+  const newMeeting = new Meeting(data)
   newMeeting.save()
     .then(meeting => res.json(meeting))
     .catch(error => console.log('ERROR => ', error))

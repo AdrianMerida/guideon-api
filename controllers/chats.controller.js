@@ -22,6 +22,18 @@ module.exports.getOneConversation = (req, res, next) => {
     .catch(next)
 }
 
+module.exports.existConversation = (req, res, next) => {
+  const myUserId = req.session.user.id
+  const userId = req.params.id
+  const users = [myUserId, userId]
+
+  Conversation.findOne({ users: users, users: users.reverse() })
+    .populate('chats')
+    .then(conversation => res.json(conversation))
+    .catch(next)
+}
+
+
 module.exports.getChats = (req, res, next) => {
   const conversationId = req.params.id
   Chat.find({ conversationId: conversationId })

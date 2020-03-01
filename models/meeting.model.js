@@ -13,7 +13,7 @@ const meetingSchema = new Schema(
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true
+      default: undefined
     },
     location: {
       type: String,
@@ -21,6 +21,10 @@ const meetingSchema = new Schema(
     },
     duration: {
       type: Number,
+      required: true
+    },
+    date: {
+      type: Date,
       required: true
     },
     senderRating: {
@@ -44,6 +48,7 @@ const meetingSchema = new Schema(
   {
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform: (doc, ret) => {
         ret.id = doc._id;
         delete ret._id;
