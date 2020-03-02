@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const states = ['pending', 'accepted', 'declined']
+const states = ['pending', 'accepted', 'declined', 'requested']
 
 const meetingSchema = new Schema(
   {
@@ -13,7 +13,7 @@ const meetingSchema = new Schema(
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      default: undefined
+      default: null
     },
     location: {
       type: String,
@@ -24,7 +24,7 @@ const meetingSchema = new Schema(
       required: true
     },
     date: {
-      type: Date,
+      type: String,
       required: true
     },
     senderRating: {
@@ -43,6 +43,10 @@ const meetingSchema = new Schema(
       type: String,
       enum: states,
       default: 'pending'
+    },
+    description: {
+      type: String,
+      default: ''
     }
   },
   {
