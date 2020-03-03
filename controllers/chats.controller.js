@@ -22,12 +22,21 @@ module.exports.getOneConversation = (req, res, next) => {
     .catch(next)
 }
 
+module.exports.getConversationId = (req, res, next) => {
+  const myUserId = req.session.user.id
+  const userId = req.params.id
+  const users = [myUserId, userId]
+  Conversation.findOne({ users: { $all: users } })
+    .then(conversation => res.json(conversation))
+    .catch(next)
+}
+
 module.exports.existConversation = (req, res, next) => {
   const myUserId = req.session.user.id
   const userId = req.params.id
   const users = [myUserId, userId]
 
-  Conversation.findOne({ users: users, users: users.reverse() })
+  Conversation.findOne({ users: { $all: users } })
     .populate('chats')
     .then(conversation => res.json(conversation))
     .catch(next)
@@ -48,9 +57,14 @@ module.exports.sendMsg = (req, res, next) => {
   const msg = req.body.msg
   const users = [myUserId, userId]
 
+  console.log(users)
+  console.log(users.reverse())
+
   // SINO EXISTE SE CREA UNA CONVERSACIÓN Y SI NO SE GUARDA
-  Conversation.findOne({ users: users, users: users.reverse() })
+  Conversation.findOne({ users: { $all: users } })
+    
     .then(conversation => {
+      console.log(conversation)
       if (!conversation) {
         const newConversation = new Conversation({ users })
         newConversation.save()

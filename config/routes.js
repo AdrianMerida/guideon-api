@@ -26,6 +26,8 @@ router.get('/chats/:id', authMiddleware.isAuthenticated, chatsController.getChat
 router.post('/chat/:id/sendMsg', authMiddleware.isAuthenticated, chatsController.sendMsg)
 router.get('/conversations/:id', authMiddleware.isAuthenticated, chatsController.getOneConversation)
 router.get('/existConversations/:id', authMiddleware.isAuthenticated, chatsController.existConversation)
+router.get('/getConversationId/:id', authMiddleware.isAuthenticated, chatsController.getConversationId)
+
 
 // MEETING
 router.get('/meetings', authMiddleware.isAuthenticated, meetingsController.getMeetings)
