@@ -30,7 +30,8 @@ module.exports.getPendingMeetings = (req, res, next) => {
 
 module.exports.searchMeetings = (req, res, next) => {
   const myUserId = req.session.user.id
-  const { search } = req.body
+  const { search } = req.query
+
   // const criteria = {};
   // if (search) {
   //   criteria.location = new RegExp(search, 'i')
