@@ -62,7 +62,8 @@ module.exports.createMeeting = (req, res, next) => {
     sender: req.body.sender,
     location: req.body.location,
     duration: req.body.duration,
-    date: req.body.date
+    date: req.body.date,
+    description: req.body.description
   }
   const newMeeting = new Meeting(data)
   newMeeting.save()
@@ -70,9 +71,9 @@ module.exports.createMeeting = (req, res, next) => {
     .catch(error => console.log('ERROR => ', error))
 }
 
-module.exports.declineMeeting = (req, res, next) => {
+module.exports.declineMeeting = (req, res, next) => { 
   const meetingId = req.params.id
-  Meeting.findByIdAndUpdate({ _id: meetingId }, { $set: { state: 'declined' } }, { new: true })
+  Meeting.findByIdAndUpdate({ _id: meetingId }, { $set: { state: 'pending', receiver: null } }, { new: true })
     .then(meeting => res.json(meeting))
     .catch(next)
 }
